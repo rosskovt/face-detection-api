@@ -1,0 +1,33 @@
+version: 'v2.12.2'
+
+services:
+  faceapp-api:
+    container_name: backend
+    build: ./
+    command: npm start
+    working_dir: /usr/src/face-detection
+    environment:
+      POSTGRES_URI: postgres://sally:secret@postgres:5432/faceapp-docker
+    # LEGACY below...
+    links:
+      - postgres
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/usr/src/face-detection
+  # Postgres
+  postgres:
+    environment:
+      POSTGRES_USER: sally
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: faceapp-docker
+      POSTGRES_HOST: postgres
+    # image: postgres
+    build: ./postgres
+    ports:
+      - "5432:5432"
+
+
+
+
+
